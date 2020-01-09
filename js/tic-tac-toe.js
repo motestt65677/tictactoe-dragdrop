@@ -15,6 +15,90 @@
 	let botRemainState = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 	let botChoice = "";
 
+	// Allow multiple draggable items
+	let dragSources = document.querySelectorAll('[draggable="true"]')
+	dragSources.forEach(dragSource => {
+		dragSource.addEventListener('dragstart', dragStart);
+		dragSource.addEventListener('dragend', dragEnd);
+	})
+
+	function dragStart (e) {
+		this.classList.add('dragging');
+		e.dataTransfer.setData('text/plain', e.target.id);
+	}
+	function dragEnd (e) {
+		this.classList.remove('dragging')
+	}
+
+	// Allow multiple dropped targets
+	let dropTargets = document.querySelectorAll('[data-role="drag-drop-container"]')
+	dropTargets.forEach(dropTarget => {
+		dropTarget.addEventListener('drop', dropped);
+		dropTarget.addEventListener('dragenter', cancelDefault);
+		dropTarget.addEventListener('dragover', cancelDefault);
+	})
+
+	function dropped (e) {
+		e.preventDefault();
+		let id = e.dataTransfer.getData('text');
+		let dragItem = document.getElementById(id);
+
+
+
+		// let oldCoinType = 
+		if(e.target.classList.contains("play-ground")){
+			if(e.target.children.length == 0){
+				dragItem.setAttribute("draggable", false);
+				e.target.appendChild(document.querySelector('#' + id));
+				dragItem.setAttribute("data-coin-used","1");
+
+				doubleSetUp(e);
+			} else if (e.target.children.length == 1){
+				//replace coin
+				let newCoinType = dragItem.getAttribute("data-coin-size");
+				let oldCoinType = e.target.children[0].getAttribute("data-coin-size");
+				let oldCoinOwner = e.target.children[0].getAttribute("data-coin-owner");
+
+				if(isLargerCoin(oldCoinType, newCoinType) && Number(oldCoinOwner) != playerTurn){
+					e.target.innerHTML="";
+					e.target.appendChild(document.querySelector('#' + id));
+					dragItem.setAttribute("data-coin-used","1");
+
+					doubleSetUp(e);
+				}
+			}
+		} 
+		this.classList.remove('hover');
+	}
+	function dragOver (e) {
+		this.classList.add('hover');
+	}
+	function isLargerCoin(oldCoin, newCoin){
+		let isLarger = false;
+		switch (newCoin) {
+			case 'large':
+				if(oldCoin == "medium" || oldCoin == "small")
+					isLarger = true;
+				break;
+			case 'medium':
+				if(oldCoin == "small")
+					isLarger = true;
+				break;
+			default:
+				isLarger = false;
+		}
+		return isLarger
+	}
+
+	function dragLeave (e) {
+		this.classList.remove('hover');
+	}
+	function cancelDefault (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		return false
+	}
+
 
 	singleButton.onclick = function(){
 		gameMode = "single";
@@ -85,8 +169,6 @@
 
 		player1State.push(selectDiv);
 		updateBotRemain();
-		// console.log(selectDiv);
-		// console.log(botRemainState);
 
 		event.target.style.backgroundImage = "url(images/circle.png)";
 		gameState.innerHTML = "Player 2's Turn";
@@ -110,31 +192,54 @@
 		selectDiv = event.target.id[5];
 
 		if(gameOver == true){
+
 			return;
 		}
 
-		if(checkEmpty(selectDiv, player1State, player2State) == true){
-			return;
-		}
+		// if(checkEmpty(selectDiv, player1State, player2State) == true){
+		// 	return;
+		// }
+		// console.log(player1State);
+		// console.log(player2State);
 
 		if(playerTurn == 1){
 			player1State.push(selectDiv);
-			event.target.style.backgroundImage = "url(images/circle.png)";
+
+			//remove coin if cover by a larger piece.
+			var index = player2State.indexOf(selectDiv);
+			if(index > -1){
+				player2State.splice(index, 1);
+				console.log("1");
+				console.log(player2State);
+			}
+			//event.target.style.backgroundImage = "url(images/circle.png)";
 			gameState.innerHTML = "Player 2's Turn";
+
 			playerTurn = 2;
+
 			if(checkWin(player1State) == true){
 				gameOver = true;
 				gameState.innerHTML = "Player 1 Wins";
+				allCoinDraggableFalse();
 				return;
 			}
 		}else {
-			player2State.push(selectDiv);			
-			event.target.style.backgroundImage = "url(images/x.png)";		
+			player2State.push(selectDiv);
+
+			//remove coin if cover by a larger piece.
+			var index = player1State.indexOf(selectDiv);
+			if(index > -1){
+				player1State.splice(index, 1);
+				console.log("2");
+				console.log(player1State);
+			}			
+			//event.target.style.backgroundImage = "url(images/x.png)";		
 			gameState.innerHTML = "Player 1's Turn";						
 			playerTurn = 1;
 			if(checkWin(player2State) == true){
 				gameOver = true;
 				gameState.innerHTML = "Player 2 Wins";
+				allCoinDraggableFalse();
 				return;
 			}
 		}
@@ -143,6 +248,28 @@
 			gameState.innerHTML = "Tie Game!!";
 			gameOver = true;
 			return;
+		}
+		setCoinDraggable(playerTurn);
+		
+	}
+	function setCoinDraggable(player){
+		var allCoins = document.getElementsByClassName('dot');
+		for(let i = 0; i<allCoins.length; i++){
+			var coin = allCoins[i];
+			var owner = coin.getAttribute("data-coin-owner");
+			var isUsed = coin.getAttribute("data-coin-used");
+			if(player == owner && isUsed == "0")
+				coin.setAttribute("draggable", true);
+			else
+				coin.setAttribute("draggable", false);
+		}
+
+	}
+	function allCoinDraggableFalse(){
+		var allCoins = document.getElementsByClassName('dot');
+		for(let i = 0; i<allCoins.length; i++){
+			var coin = allCoins[i];
+			coin.setAttribute("draggable", false);
 		}
 	}
 

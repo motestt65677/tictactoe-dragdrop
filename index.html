@@ -14,10 +14,15 @@
   <h1>Tic Tac TOE</h1>
 
   <div><strong class="game-state">Player 1's turn</strong></div>
-  <div id="player-1-coin" data-role="drag-drop-container" class="source-container coin-container">
-    <div id="drag-source" class="dot red small" draggable="true"></div>
-    <div id="drag-source2" class="dot red medium" draggable="true"></div>
-    <div id="drag-source3" class="dot red large" draggable="true"></div>
+  <div id="player-1-coin"  class="source-container coin-container">
+    <div id="drag-source-1-1" class="dot red small" draggable="true" data-coin-size="small" data-coin-owner="1" data-coin-used="0"></div>
+    <div id="drag-source-1-2" class="dot red medium" draggable="true" data-coin-size="medium" data-coin-owner="1" data-coin-used="0"></div>
+    <div id="drag-source-1-3" class="dot red large" draggable="true" data-coin-size="large" data-coin-owner="1" data-coin-used="0"></div>
+  </div>
+  <div id="player-1-coin"  class="source-container coin-container">
+    <div id="drag-source-1-4" class="dot red small" draggable="true" data-coin-size="small" data-coin-owner="1" data-coin-used="0"></div>
+    <div id="drag-source-1-5" class="dot red medium" draggable="true" data-coin-size="medium" data-coin-owner="1" data-coin-used="0"></div>
+    <div id="drag-source-1-6" class="dot red large" draggable="true" data-coin-size="large" data-coin-owner="1" data-coin-used="0"></div>
   </div>
   <div >
     <div data-role="drag-drop-container">
@@ -37,15 +42,20 @@
     </div>
 
   </div>
-  <div id="player-2-coin" data-role="drag-drop-container" class="source-container coin-container" >
-    <div id="drag-source4" class="dot green small" draggable="true"></div>
-    <div id="drag-source5" class="dot green medium" draggable="true"></div>
-    <div id="drag-source6" class="dot green large" draggable="true"></div>
+  <div id="player-2-coin" class="source-container coin-container" >
+    <div id="drag-source-2-1" class="dot green small" draggable="true" data-coin-size="small" data-coin-owner="2" data-coin-used="0"></div>
+    <div id="drag-source-2-2" class="dot green medium" draggable="true" data-coin-size="medium" data-coin-owner="2" data-coin-used="0"></div>
+    <div id="drag-source-2-3" class="dot green large" draggable="true" data-coin-size="large" data-coin-owner="2" data-coin-used="0"></div>
+  </div>
+  <div id="player-2-coin" class="source-container coin-container" >
+    <div id="drag-source-2-4" class="dot green small" draggable="true" data-coin-size="small" data-coin-owner="2" data-coin-used="0"></div>
+    <div id="drag-source-2-5" class="dot green medium" draggable="true" data-coin-size="medium" data-coin-owner="2" data-coin-used="0"></div>
+    <div id="drag-source-2-6" class="dot green large" draggable="true" data-coin-size="large" data-coin-owner="2" data-coin-used="0"></div>
   </div>
   <div>  
-    <button class="reset">Reset</button>
-    <button class="single">1 Player</button>
-    <button class="double">2 Players</button>
+    <button class="reset" style="display:none">Reset</button>
+    <button class="single" style="display:none">1 Player</button>
+    <button class="double" style="display:none">2 Players</button>
   </div>
 </main>
 
