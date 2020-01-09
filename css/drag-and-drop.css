@@ -1,0 +1,68 @@
+.square{
+    width:5em;
+    height:5em;
+    size:20px;
+    border: 1px solid red;
+}
+.dot {
+    
+    border-radius: 50%;
+    display: relative;
+    margin: auto;
+}
+.red{
+    background-color: red;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.green{
+    background-color: green;
+}
+.source-container {
+    height: 50px;
+    flex: 1;
+    margin: 1rem;
+}
+#target-container {
+    height: 400px;
+    border: 2px solid #CCC;
+    flex: 1;
+    margin: 1rem;
+}
+.coin-container {
+    width:10em; 
+    margin:auto; 
+    display:flex;
+    border: 1px solid white;
+}
+[draggable="true"] {
+    /*
+    To prevent user selecting inside the drag source
+    */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.dragging {
+    opacity: .25;
+}
+.hover {
+    background-color: rgba(0,191,165,.04);
+}
+.small{
+    height: 1em;
+    width: 1em;
+}
+.medium{
+    height: 2em;
+    width: 2em;
+}
+.large{
+    height: 3em;
+    width: 3em;
+}

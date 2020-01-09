@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" type="text/css" href="css/tic-tac-toe.css">
+  <link rel="stylesheet" type="text/css" href="css/drag-and-drop.css">
+
+</head>
+<body>
+
+
+<main id="drag-drop-basic">
+  <h1>Tic Tac TOE</h1>
+
+  <div><strong class="game-state">Player 1's turn</strong></div>
+  <div id="player-1-coin" data-role="drag-drop-container" class="source-container coin-container">
+    <div id="drag-source" class="dot red small" draggable="true"></div>
+    <div id="drag-source2" class="dot red medium" draggable="true"></div>
+    <div id="drag-source3" class="dot red large" draggable="true"></div>
+  </div>
+  <div >
+    <div data-role="drag-drop-container">
+      <span class="play-ground top left" id="block1" ></span>
+      <span class="play-ground top center" id="block2"></span>
+      <span class="play-ground top right" id="block3"></span>
+    </div>
+    <div data-role="drag-drop-container">
+      <span class="play-ground middle left" id="block4"></span>
+      <span class="play-ground middle center" id="block5"></span>
+      <span class="play-ground middle right" id="block6"></span>
+    </div>
+    <div data-role="drag-drop-container">
+      <span class="play-ground bot left" id="block7"></span>
+      <span class="play-ground bot center" id="block8"></span>
+      <span class="play-ground bot right" id="block9"></span>
+    </div>
+
+  </div>
+  <div id="player-2-coin" data-role="drag-drop-container" class="source-container coin-container" >
+    <div id="drag-source4" class="dot green small" draggable="true"></div>
+    <div id="drag-source5" class="dot green medium" draggable="true"></div>
+    <div id="drag-source6" class="dot green large" draggable="true"></div>
+  </div>
+  <div>  
+    <button class="reset">Reset</button>
+    <button class="single">1 Player</button>
+    <button class="double">2 Players</button>
+  </div>
+</main>
+
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="js/tic-tac-toe.js"></script>
+<script type="text/javascript" src="js/drag-and-drop.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+body{
+	background-color: black;
+	color:white;
+}
+h1{
+	color:white;
+}
+span	{
+	display: inline-block;
+	height: 6em;
+	width: 6em;
+}
+
+div{
+	text-align: center;
+  display: block;
+}
+main{
+	text-align: center;
+}
+
+button{
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25%;
+}
+.break{
+	display: block;
+	width: 0;
+	height: 0;
+}
+.play-ground{
+	background-size: cover;
+	width:5em;
+	height:5em;
+	vertical-align: bottom;
+	text-align: center;
+}
+.top{
+	border-bottom: 2px solid white;
+}
+.middle{
+	border-bottom: 2px solid white;	
+}
+.left{
+	border-right: 2px solid white;
+}
+.center{
+	border-right: 2px solid white;
+}
