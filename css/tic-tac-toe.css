@@ -43,6 +43,7 @@ button{
 	height:5em;
 	vertical-align: bottom;
 	text-align: center;
+	position: relative;
 }
 .top{
 	border-bottom: 2px solid white;

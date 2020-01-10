@@ -27,52 +27,86 @@
 		e.dataTransfer.setData('text/plain', e.target.id);
 	}
 	function dragEnd (e) {
-		this.classList.remove('dragging')
+		this.classList.remove('dragging');
 	}
 
 	// Allow multiple dropped targets
 	let dropTargets = document.querySelectorAll('[data-role="drag-drop-container"]')
 	dropTargets.forEach(dropTarget => {
-		dropTarget.addEventListener('drop', dropped);
+		var mask = findFirstChildWithClass(dropTarget, "mask");
+		if(mask){
+			mask.addEventListener('dragenter', dragEnter);
+			mask.addEventListener('dragover', cancelDefault);
+			mask.addEventListener('dragleave', dragLeft);
+		}
 		dropTarget.addEventListener('dragenter', cancelDefault);
 		dropTarget.addEventListener('dragover', cancelDefault);
+		dropTarget.addEventListener('dragleave', cancelDefault);
+		dropTarget.addEventListener('drop', dropped);
+
 	})
 
+	function findFirstChildWithClass(parentNode, className){
+		for(var i=0; i< parentNode.children.length; i++){
+			var child = parentNode.children[i];
+			if(child.classList.contains(className))
+				return child;
+		}
+	}
+
+	function dragEnter(e){
+		e.preventDefault();
+		e.stopPropagation();
+		e.target.classList.add("hovered");
+
+	}
+	function dragLeft(e){
+		e.preventDefault();
+		e.stopPropagation();
+		e.target.classList.remove("hovered");
+
+	}
+	// function dragOver(e){
+
+	// }
 	function dropped (e) {
 		e.preventDefault();
+		let drag_drop_container;
+		e.target.classList.remove("hovered");
+		if(e.target.classList.contains("mask"))
+			drag_drop_container = e.target.parentNode;
+
 		let id = e.dataTransfer.getData('text');
 		let dragItem = document.getElementById(id);
 
-
-
 		// let oldCoinType = 
-		if(e.target.classList.contains("play-ground")){
-			if(e.target.children.length == 0){
+		if(drag_drop_container.classList.contains("play-ground")){
+			let oldCoin = findFirstChildWithClass(drag_drop_container, "dot")
+			if(!oldCoin){
 				dragItem.setAttribute("draggable", false);
-				e.target.appendChild(document.querySelector('#' + id));
 				dragItem.setAttribute("data-coin-used","1");
-
-				doubleSetUp(e);
-			} else if (e.target.children.length == 1){
+				drag_drop_container.appendChild(document.querySelector('#' + id));
+				doubleSetUp(drag_drop_container.id);
+			} else{
 				//replace coin
 				let newCoinType = dragItem.getAttribute("data-coin-size");
-				let oldCoinType = e.target.children[0].getAttribute("data-coin-size");
-				let oldCoinOwner = e.target.children[0].getAttribute("data-coin-owner");
+				let oldCoinType = oldCoin.getAttribute("data-coin-size");
+				let oldCoinOwner = oldCoin.getAttribute("data-coin-owner");
 
 				if(isLargerCoin(oldCoinType, newCoinType) && Number(oldCoinOwner) != playerTurn){
-					e.target.innerHTML="";
-					e.target.appendChild(document.querySelector('#' + id));
+					drag_drop_container.removeChild(oldCoin);
+					drag_drop_container.appendChild(dragItem);
 					dragItem.setAttribute("data-coin-used","1");
 
-					doubleSetUp(e);
+					doubleSetUp(drag_drop_container.id);
 				}
 			}
 		} 
 		this.classList.remove('hover');
 	}
-	function dragOver (e) {
-		this.classList.add('hover');
-	}
+	// function dragOver (e) {
+	// 	this.classList.add('hover');
+	// }
 	function isLargerCoin(oldCoin, newCoin){
 		let isLarger = false;
 		switch (newCoin) {
@@ -136,8 +170,7 @@
 		selectDiv = botChoice;	
 
 		updateBotRemain();
-		// console.log(botChoice);
-		// console.log(botRemainState);
+
 
 		botState.push(selectDiv);
 		myDivs[botChoice-1].style.backgroundImage = "url(images/x.png)";	
@@ -156,8 +189,8 @@
 		}	
 	}
 
-	function singleSetUp(event){
-		selectDiv = event.target.id[5];
+	function singleSetUp(selectDiv){
+		//selectDiv = event.target.id[5];
 
 		if(gameOver == true){
 			return;
@@ -188,14 +221,12 @@
 		botMove();
 	}
 
-	function doubleSetUp(event){
-		selectDiv = event.target.id[5];
+	function doubleSetUp(drag_drop_container){
+		selectDiv = drag_drop_container[5];
 
-		if(gameOver == true){
-
+		if(gameOver == true)
 			return;
-		}
-
+		
 		// if(checkEmpty(selectDiv, player1State, player2State) == true){
 		// 	return;
 		// }
@@ -209,8 +240,6 @@
 			var index = player2State.indexOf(selectDiv);
 			if(index > -1){
 				player2State.splice(index, 1);
-				console.log("1");
-				console.log(player2State);
 			}
 			//event.target.style.backgroundImage = "url(images/circle.png)";
 			gameState.innerHTML = "Player 2's Turn";
@@ -230,8 +259,6 @@
 			var index = player1State.indexOf(selectDiv);
 			if(index > -1){
 				player1State.splice(index, 1);
-				console.log("2");
-				console.log(player1State);
 			}			
 			//event.target.style.backgroundImage = "url(images/x.png)";		
 			gameState.innerHTML = "Player 1's Turn";						
