@@ -7,8 +7,7 @@
 .dot {
     
     border-radius: 50%;
-    display: relative;
-    margin: auto;
+    margin: auto auto;
 }
 .red{
     background-color: red;
