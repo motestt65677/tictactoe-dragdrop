@@ -22,13 +22,7 @@
 		dragSource.addEventListener('dragend', dragEnd);
 	})
 
-	function dragStart (e) {
-		this.classList.add('dragging');
-		e.dataTransfer.setData('text/plain', e.target.id);
-	}
-	function dragEnd (e) {
-		this.classList.remove('dragging');
-	}
+
 
 	// Allow multiple dropped targets
 	let dropTargets = document.querySelectorAll('[data-role="drag-drop-container"]')
@@ -45,7 +39,18 @@
 		dropTarget.addEventListener('drop', dropped);
 
 	})
+	setCoinDraggable(playerTurn);
 
+
+
+	
+	function dragStart (e) {
+		this.classList.add('dragging');
+		e.dataTransfer.setData('text/plain', e.target.id);
+	}
+	function dragEnd (e) {
+		this.classList.remove('dragging');
+	}
 	function findFirstChildWithClass(parentNode, className){
 		for(var i=0; i< parentNode.children.length; i++){
 			var child = parentNode.children[i];
